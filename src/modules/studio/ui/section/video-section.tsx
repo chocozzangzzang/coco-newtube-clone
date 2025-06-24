@@ -106,9 +106,9 @@ const VideosSectionSuspense = () => {
                             <TableHead>Visibility</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Date</TableHead>
-                            <TableHead>Views</TableHead>
-                            <TableHead>Comments</TableHead>
-                            <TableHead>Likes</TableHead>
+                            <TableHead className="text-right">Views</TableHead>
+                            <TableHead className="text-right">Comments</TableHead>
+                            <TableHead className="text-right pr-6">Likes</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
