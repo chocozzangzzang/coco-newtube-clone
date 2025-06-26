@@ -10,6 +10,12 @@ interface VideoPlayProps{
     onPlay?: () => void;
 };
 
+export const VideoPlayerSkeleton = () => {
+    return (
+        <div className="aspect-video bg-black rounded-xl"></div>
+    )
+}
+
 export const VideoPlayer = ({
     playbackId,
     thumbnailUrl,
