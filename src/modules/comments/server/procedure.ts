@@ -52,9 +52,23 @@ export const commentsRouter = createTRPCRouter({
                     ) : undefined,
                 ))
                 .innerJoin(users, eq(comments.userId, users.id))
-                .orderBy(desc(comments.updatedAt))
+                .orderBy(desc(comments.updatedAt), desc(comments.id))
                 .limit(limit + 1);
-            
-            return data;
+
+            const hasMore = data.length > limit;
+            // Remove the last item if there is more data //
+            const items = hasMore ? data.slice(0, -1) : data;
+            // Set the next cursor to the last item if there is more data
+            const lastItem = items[items.length - 1];
+            const nextCursor = hasMore 
+            ? {
+                id: lastItem.id,
+                updatedAt: lastItem.updatedAt,
+            } : null;
+
+            return {
+                items,
+                nextCursor,
+            };
         })
 })
