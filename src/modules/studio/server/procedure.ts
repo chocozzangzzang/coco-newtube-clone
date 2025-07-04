@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { db } from "@/db";
-import { videos } from "@/db/schema";
+import { comments, users, videoReactions, videos, videoViews } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { eq, and, or, lt, desc } from "drizzle-orm";
+import { eq, and, or, lt, desc, getTableColumns } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const studioRouter = createTRPCRouter({
@@ -44,20 +44,36 @@ export const studioRouter = createTRPCRouter({
         const { id:userId } = ctx.user; 
 
         const data = await db
-        .select()
-        .from(videos)
-        .where(and(
-            eq(videos.userId, userId),
-            cursor
-            ? or(
-                lt(videos.updatedAt, cursor.updatedAt),
-                and(
-                    eq(videos.updatedAt, cursor.updatedAt),
-                    lt(videos.id, cursor.id)
-                )
-            ) : undefined,
-        )).orderBy(desc(videos.updatedAt), desc(videos.id))
-        .limit(limit + 1); // Add 1 to the limit check if there is more data
+            .select({
+                ...getTableColumns(videos),
+                user: users,
+                viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+                likeCount: db.$count(videoReactions, and(
+                    eq(videoReactions.videoId, videos.id),
+                    eq(videoReactions.type, "like")
+                )),
+                dislikeCount: db.$count(videoReactions, and(
+                    eq(videoReactions.videoId, videos.id),
+                    eq(videoReactions.type, "dislike")
+                )),
+                commentCount: db.$count(comments, eq(comments.videoId, videos.id)),
+            })
+            .from(videos)
+            .innerJoin(users, eq(videos.userId, users.id))
+            .where(and(
+                eq(videos.userId, userId),
+                cursor
+                ? or(
+                    lt(videos.updatedAt, cursor.updatedAt),
+                    and(
+                        eq(videos.updatedAt, cursor.updatedAt),
+                        lt(videos.id, cursor.id)
+                    )
+                ) : undefined,
+            )).orderBy(desc(videos.updatedAt), desc(videos.id))
+            .limit(limit + 1); // Add 1 to the limit check if there is more data
+
+        // console.log({ data });
 
         const hasMore = data.length > limit;
         // Remove the last item if there is more data //

@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { APP_URL } from "@/constants";
+import { PlaylistAddModal } from "@/modules/playlists/ui/components/playlist-add-modal";
 import { ListPlusIcon, MoreVerticalIcon, ShareIcon, Trash2Icon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface VideoMenuProps {
@@ -17,6 +19,8 @@ export const VideoMenu = ({
     onRemove,
 } : VideoMenuProps) => {
 
+    const [ isOpenPlaylistAddModal , setIsOpenPlaylistAddModal ] = useState(false);
+
     const onShare = () => {
         // TODO : Change if deploying outside of VERCEL
         const fullUrl = `${APP_URL}/videos/${videoId}`;
@@ -25,34 +29,41 @@ export const VideoMenu = ({
     }
     
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    className="rounded-ull"
-                    size="icon"
-                    variant={variant}
-                >
-                    <MoreVerticalIcon />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                <DropdownMenuItem onClick={onShare}>
-                    <ShareIcon className="mr-2 size-4"/>
-                     Share
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => {}}>
-                    <ListPlusIcon className="mr-2 size-4"/>
-                     Add To Playlist
-                </DropdownMenuItem>
-                {
-                    onRemove && (
-                        <DropdownMenuItem onClick={() => {}}>
-                            <Trash2Icon className="mr-2 size-4"/>
-                            Remove
-                        </DropdownMenuItem>
-                    )
-                }
-            </DropdownMenuContent>
+        <>
+            <PlaylistAddModal
+                videoId={videoId}
+                open={isOpenPlaylistAddModal}
+                onOpenChange={setIsOpenPlaylistAddModal}
+            />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        className="rounded-ull"
+                        size="icon"
+                        variant={variant}
+                    >
+                        <MoreVerticalIcon />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                    <DropdownMenuItem onClick={onShare}>
+                        <ShareIcon className="mr-2 size-4"/>
+                        Share
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setIsOpenPlaylistAddModal(true)}>
+                        <ListPlusIcon className="mr-2 size-4"/>
+                        Add To Playlist
+                    </DropdownMenuItem>
+                    {
+                        onRemove && (
+                            <DropdownMenuItem onClick={onRemove}>
+                                <Trash2Icon className="mr-2 size-4"/>
+                                Remove
+                            </DropdownMenuItem>
+                        )
+                    }
+                </DropdownMenuContent>
         </DropdownMenu>
+        </>
     )
 }
