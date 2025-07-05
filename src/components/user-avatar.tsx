@@ -22,7 +22,7 @@ interface UserAvatarProps extends VariantProps<typeof avatarVariants> {
     imageUrl: string;
     name: string;
     className?: string;
-    onClick?: () => {}
+    onClick?: () => void;
 }
 
 export const UserAvatar = ({
