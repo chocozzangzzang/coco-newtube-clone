@@ -5,7 +5,7 @@ import { videosRouter } from '@/modules/videos/server/procedure';
 import { videoViewsRouter } from '@/modules/video-views/server/procedure';
 import { videoReactions } from '@/db/schema';
 import { videoReactionsRouter } from '@/modules/video-reactions/server/procedure';
-import { subscriptionsRouter } from '@/modules/subscriptions/ui/components/server/procedure';
+import { subscriptionsRouter } from '@/modules/subscriptions/ui/server/procedure';
 import { commentsRouter } from '@/modules/comments/server/procedure';
 import { commentReactionsRouter } from '@/modules/comment-reactions/procedure';
 import { suggestionsRouter } from '@/modules/suggestions/server/procedure';

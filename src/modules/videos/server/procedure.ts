@@ -144,6 +144,7 @@ export const videosRouter = createTRPCRouter({
                 nextCursor,
             };
         }),
+
     getMany: baseProcedure
             .input(
                 z.object({
@@ -207,6 +208,7 @@ export const videosRouter = createTRPCRouter({
                 nextCursor,
             };
         }),
+        
     getOne: baseProcedure
         .input(z.object({ id: z.string().uuid() }))
         .query(async({ input, ctx }) => {
