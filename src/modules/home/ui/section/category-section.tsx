@@ -22,9 +22,9 @@ export const CategoriesSection = ( { categoryId } : CategoriesProps) => {
     )
 }
 
-const CategoriesSkeleton = () => {
-    return <FilterCarousel isLoading data={[]} onSelect={() => {}} />
-}
+// const CategoriesSkeleton = () => {
+//     return <FilterCarousel isLoading data={[]} onSelect={() => {}} />
+// }
 
 const CategoriesSectionSuspense = ({ categoryId } : CategoriesProps) => {
     const router = useRouter();

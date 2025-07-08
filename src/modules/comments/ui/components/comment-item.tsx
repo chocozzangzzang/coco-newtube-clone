@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CommentForm } from "./comment-form";
-import { comments } from "@/db/schema";
 import { CommentReplies } from "./comment-replies";
 
 interface CommentItemProps {
@@ -29,9 +28,6 @@ export const CommentItem = ({
 
     const clerk = useClerk();
     const utils = trpc.useUtils();
-
-    console.log(userId);
-
     const remove = trpc.comments.remove.useMutation({
         onSuccess: () => {
             toast.success("Comment Deleted");

@@ -32,10 +32,7 @@ export const PlaylistCreateModal = ({
             name: "",
         }
     })
-
-    const onUploadComplete = () => {
-        onOpenChange(false);
-    }
+    
     const utils = trpc.useUtils();
     const create = trpc.playlists.create.useMutation({
         onSuccess: () => {

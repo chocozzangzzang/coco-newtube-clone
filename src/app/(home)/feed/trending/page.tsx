@@ -4,12 +4,6 @@ import { HydrateClient, trpc } from "@/trpc/server";
 
 export const dynamic = "force-dynamic";
 
-interface PageProps {
-  searchParams: Promise<{
-    categoryId?: string;
-  }>
-}
-
 const Page = () => {
   void trpc.videos.getManyTrending.prefetchInfinite({ limit: DEFAULT_LIMIT })
 

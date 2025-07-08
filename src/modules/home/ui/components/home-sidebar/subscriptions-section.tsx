@@ -1,14 +1,13 @@
 "use client"
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem} from "@/components/ui/sidebar";
-import { FlameIcon, HistoryIcon, HomeIcon, ListIcon, ListVideoIcon, PlaySquareIcon, ThumbsUpIcon } from "lucide-react";
-import { useAuth, useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trpc } from "@/trpc/client";
 import { DEFAULT_LIMIT } from "@/constants";
 import { UserAvatar } from "@/components/user-avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ListIcon } from "lucide-react";
 
 export const LoadingSkeleton = () => {
     return (
